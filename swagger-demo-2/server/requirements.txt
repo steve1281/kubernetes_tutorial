@@ -1,0 +1,6 @@
+Werkzeug==0.15.6
+Flask==1.1.1
+# connexion==1.5.3
+connexion == 2.2.0
+python_dateutil == 2.6.0
+setuptools >= 21.0.0
