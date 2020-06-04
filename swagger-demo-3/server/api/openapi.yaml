@@ -1,0 +1,113 @@
+openapi: 3.0.0
+info:
+  title: HR API
+  description: Simple Example of an HR API
+  termsOfService: https://www.gnu.org/licenses/gpl-3.0.en.html
+  contact:
+    name: Steve
+    url: https://github.com/steve1281/kubernetes_tutorial
+    email: steve1281@hotmail.com
+  license:
+    name: Steve License
+    url: https://www.gnu.org/licenses/gpl-3.0.en.html
+  version: 1.0.0
+servers:
+- url: https://dev.foo.com/v1
+  description: Dev Server
+- url: https://prod.foo.com/v1
+  description: Prod Server
+paths:
+  /employees:
+    get:
+      description: Obtain information about employees from the HR database
+      operationId: employeesGET
+      parameters:
+      - name: bodyLimit
+        in: query
+        description: The amount of employes returned
+        required: false
+        style: form
+        explode: true
+        schema:
+          maximum: 20
+          minimum: 10
+          type: integer
+          example: 15
+      - name: pageLimit
+        in: query
+        description: The pages to return employees info returned
+        required: false
+        style: form
+        explode: true
+        schema:
+          maximum: 5
+          minimum: 1
+          type: integer
+          example: 2
+      responses:
+        "200":
+          description: Successful pull of employee info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employees'
+      x-swagger-router-controller: Default
+    post:
+      description: Creates a new employee in the database
+      operationId: employeesPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+        required: true
+      responses:
+        "200":
+          description: Successful employee creation.
+      x-swagger-router-controller: Default
+  /employees/{id}:
+    get:
+      description: Obtain information about specific employee
+      operationId: employeesIdGET
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the employee
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 54
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+      x-swagger-router-controller: Default
+components:
+  schemas:
+    Employee:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 4
+        employee name:
+          type: string
+          example: John Smith
+        employee title:
+          type: string
+          example: Programmer
+      description: Model containing employee info
+      example:
+        employee name: John Smith
+        id: 4
+        employee title: Programmer
+    Employees:
+      type: array
+      description: Model of an array of Employee
+      items:
+        $ref: '#/components/schemas/Employee'
