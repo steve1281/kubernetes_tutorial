@@ -96,7 +96,8 @@ This will add a shared database location, /dbase/test.db, that all our pods in t
 We also modified the python to check for an environment variable, DATABASE_LOCATION, to tell it where to look,
 and modified the Dockerfile to set this to /dbase/test.db
 
-NOTE: 
+with the volume, you can now increase the replica count. Of course only one can write at a time, and we set that in the
+deployment.yml file.
 
 ```
 
