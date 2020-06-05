@@ -3,6 +3,7 @@ from python
 # Create a working directory
 WORKDIR /usr/src/app
 
+ENV DATABASE_LOCATION dbase/
 
 RUN pip3 install flask flask-sqlalchemy
 

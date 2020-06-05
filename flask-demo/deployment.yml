@@ -1,0 +1,59 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: taskservice
+spec:
+  selector:
+    app: taskapp
+  ports:
+    - protocol: "TCP"
+      # Port accessible inside cluster
+      port: 5000
+      # Port to forward to inside the pod
+      targetPort: 80
+      # Port accessible outside cluster
+      nodePort: 30001
+  type: LoadBalancer
+
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: taskdeployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: taskapp
+  template:
+    metadata:
+      labels:
+        app: taskapp
+    spec:
+      containers:
+        - name: taskapp
+          image: steve1281/flask-demo
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: dbase-storage
+              mountPath: /usr/src/app/dbase
+      volumes:
+        - name: dbase-storage
+          persistentVolumeClaim:
+            claimName: dbase-pv-storage
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dbase-pv-storage
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+

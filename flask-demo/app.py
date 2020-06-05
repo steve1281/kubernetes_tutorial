@@ -1,9 +1,12 @@
+import os
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
+database_location = 'sqlite:///' + os.getenv('DATABASE_LOCATION', '') + 'test.db'
+
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = database_location
 db = SQLAlchemy(app)
 
 class Todo(db.Model):
@@ -56,7 +59,12 @@ def update(id):
         return render_template('update.html', task=task)
 
     
-
+def init_dbase():
+    location = os.getenv('DATABASE_LOCATION', '') + 'test.db'
+    if not os.path.exists(location):
+        db.create_all()
+        
 
 if __name__ == "__main__":
+    init_dbase()
     app.run(host='0.0.0.0', port=80, debug=True)
