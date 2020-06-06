@@ -68,7 +68,9 @@ def init_dbase():
     if not os.path.exists(location):
         db.create_all()
         
-
-if __name__ == "__main__":
+def create_app():
     init_dbase()
     app.run(host=host_ip_address, port=port_number, debug=debug_mode)
+
+if __name__ == "__main__":
+    create_app()
