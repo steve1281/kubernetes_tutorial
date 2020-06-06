@@ -4,6 +4,9 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 database_location = 'sqlite:///' + os.getenv('DATABASE_LOCATION', '') + 'test.db'
+port_number = int(os.getenv('FLASK_PORT_NUMBER','5000'))
+host_ip_address = os.getenv('FLASK_HOST_IP_ADDRESS', '0.0.0.0')
+debug_mode = os.getenv('FLASK_DEBUG_MODE', 'True') == 'True'
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = database_location
@@ -67,4 +70,4 @@ def init_dbase():
 
 if __name__ == "__main__":
     init_dbase()
-    app.run(host='0.0.0.0', port=80, debug=True)
+    app.run(host=host_ip_address, port=port_number, debug=debug_mode)

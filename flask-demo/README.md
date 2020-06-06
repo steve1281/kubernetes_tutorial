@@ -11,16 +11,20 @@ source env/bin/activate
 ```
 
 ## initialize the database
+manually:
 ```
 python3
 >>> from app import db
 >>> db.create_all()
 >>> exit()
 ```
+note: the code has been modified to do this for you now.
 
 ## and run
 ```
-modify the port in the app.py to something other than 80 (todo: ENV this)
+There are a number of environment settings you could use. 
+You don't have to.
+
 python3 app.py
 ```
 
@@ -31,15 +35,9 @@ Just open http://localhost:5000
 
 ## dockerized
 ```
-first, set the port in app.py to be 80. (avoids firewall issues)
-
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=80, debug=True)
-
-then:
+  (assuming you you haven't changed the ENV values in the Dockerfile)
   docker build -t steve1281/flask-demo .
   docker run -p 5000:80 steve1281/flask-demo
-
 ```
 
 ## kubernete deployment
@@ -62,13 +60,6 @@ Or:
 
 And Open it up in a web browser
 
-
-CAVEAT!  As designed, each flask-demo has its OWN database, and we are loadbalancing.
-This means you will get a different pod each time, which means reading and writing is going 
-to not work correctly. We need a database service, or someway of syncing between many.
-
-For now, set the replicas: 1
-
 If desired, you can remove the service/deployment with:
 
 $ kubectl delete -f deployment.yml
@@ -84,7 +75,7 @@ Finally, stop kubernetes:
 ```
 link: https://www.youtube.com/watch?v=E8uGIeiaaUQ
 
-We need a single location for the database.
+Added to deal with multiple database problem. Basically a single location for the database is required.
 
 Keep in mind, when you do stop kubernetes, the data doesn't persist.  Which means, although the services/deployments 
 will restart, the data that was saved in the pods is GONE. This INCLUDES the persistent volume. 
@@ -101,4 +92,19 @@ deployment.yml file.
 
 ```
 
+## environment variables
+```
+DATABASE_LOCATION - folder to put test.db database. eg) dbase/
+FLASK_PORT_NUMBER - port for server. eg 5000
+FLASK_HOST_IP_ADDRESS - ip address for the server. eg) 0.0.0.0
+FLASK_DEBUG_MODE - debug mode. eg) True
+
+These are used in the docker file:
+
+steve@kube:~/projects/kuber-demos/flask-demo$ docker exec -it f244e8ac637f /bin/bash
+root@f244e8ac637f:/usr/src/app# env | grep FLASK
+FLASK_DEBUG_MODE=False
+FLASK_HOST_IP_ADDRESS=0.0.0.0
+FLASK_PORT_NUMBER=80
+```
 
