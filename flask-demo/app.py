@@ -10,6 +10,7 @@ debug_mode = os.getenv('FLASK_DEBUG_MODE', 'True') == 'True'
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = database_location
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 class Todo(db.Model):
