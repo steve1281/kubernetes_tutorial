@@ -8,6 +8,7 @@ From a fresh clone you will need to setup your virtual env and initialize the da
 pip3 install virtualenv
 virtualenv env
 source env/bin/activate
+pip3 install -r requirements.txt 
 ```
 
 ## initialize the database
@@ -98,6 +99,7 @@ DATABASE_LOCATION - folder to put test.db database. eg) dbase/
 FLASK_PORT_NUMBER - port for server. eg 5000
 FLASK_HOST_IP_ADDRESS - ip address for the server. eg) 0.0.0.0
 FLASK_DEBUG_MODE - debug mode. eg) True
+PRODUCTION_MODE - launches the app using  waitress instead of flask dev 
 
 These are used in the docker file:
 

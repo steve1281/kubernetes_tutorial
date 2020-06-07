@@ -2,11 +2,13 @@ import os
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from waitress import serve
 
 database_location = 'sqlite:///' + os.getenv('DATABASE_LOCATION', '') + 'test.db'
 port_number = int(os.getenv('FLASK_PORT_NUMBER','5000'))
 host_ip_address = os.getenv('FLASK_HOST_IP_ADDRESS', '0.0.0.0')
 debug_mode = os.getenv('FLASK_DEBUG_MODE', 'True') == 'True'
+production_mode = os.getenv('PRODUCTION_MODE', 'True') == 'True'
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = database_location
@@ -25,7 +27,7 @@ class Todo(db.Model):
 @app.route('/', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST':
-        task_content = request.form['content']  # content is the id fromt he submit on index.html
+        task_content = request.form['content']  # content is the id from the submit on index.html
         new_task = Todo(content=task_content)
         try:
             db.session.add(new_task)
@@ -70,7 +72,10 @@ def init_dbase():
         
 def create_app():
     init_dbase()
-    app.run(host=host_ip_address, port=port_number, debug=debug_mode)
+    if production_mode:  # use waitress
+        serve(app, host=host_ip_address, port=port_number)
+    else: # flask dev environment
+        app.run(host=host_ip_address, port=port_number, debug=debug_mode)
 
 if __name__ == "__main__":
     create_app()
