@@ -110,3 +110,97 @@ FLASK_HOST_IP_ADDRESS=0.0.0.0
 FLASK_PORT_NUMBER=80
 ```
 
+## configmap instead of  environment variables
+
+```
+from the demo link: https://www.youtube.com/watch?v=SJU8l3UmKZU
+
+Use the command to refresh as needed:
+$ kubectl apply -f deployment.yml
+
+we appended to our existing deployment.yml file
+a configuration:
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configvariable
+  namespace: default
+data:
+  FLASK_DEBUG_MODE : "True"
+  FLASK_HOST_IP_ADDRESS : "0.0.0.0"
+  FLASK_PORT_NUMBER : "80"
+
+First note, the FLASK_DEBUG_MODE is different than what was in the Dockerfile.
+(so if this works as intended, we should see the ENV variable change)
+
+
+We also added the env assignment:
+
+          env:
+            - name: FLASK_DEBUG_MODE
+              valueFrom:
+                configMapKeyRef:
+                  name: configvariable
+                  key: FLASK_DEBUG_MODE
+            - name: FLASK_HOST_IP_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: configvariable
+                  key: FLASK_HOST_IP_ADDRESS
+            - name: FLASK_PORT_NUMBER
+              valueFrom:
+                configMapKeyRef:
+                  name: configvariable
+                  key: FLASK_PORT_NUMBER
+      volumes:
+
+Second note, the name to put in the ENV is name: . It takes the value from the
+ConfigMap.
+
+Checking if this worked:
+
+root@taskdeployment-7d95f5bc99-f2p7x:/usr/src/app# env | grep FLASK
+FLASK_DEBUG_MODE=True
+FLASK_HOST_IP_ADDRESS=0.0.0.0
+FLASK_PORT_NUMBER=80
+root@taskdeployment-7d95f5bc99-f2p7x:/usr/src/app# 
+
+So thats good.
+
+Next, lets mount the config as a volume - which I think is more useful.
+
+add a mount point:
+
+          volumeMounts:
+            - name: dbase-storage
+              mountPath: /usr/src/app/dbase
+            - name: config-values
+              mountPath: /usr/src/app/config
+
+and hook in our configMap:
+      volumes:
+        - name: dbase-storage
+          persistentVolumeClaim:
+            claimName: dbase-pv-storage
+        - name: config-values
+          configMap:
+            name: configvariable
+
+and verify:
+
+root@taskdeployment-76cd486744-9kkxd:/usr/src/app# ls -la config
+total 12
+drwxrwxrwx 3 root root 4096 Jun 10 02:38 .
+drwxr-xr-x 1 root root 4096 Jun 10 02:39 ..
+drwxr-xr-x 2 root root 4096 Jun 10 02:38 ..2020_06_10_02_38_58.858240929
+lrwxrwxrwx 1 root root   31 Jun 10 02:38 ..data -> ..2020_06_10_02_38_58.858240929
+lrwxrwxrwx 1 root root   23 Jun 10 02:38 FLASK_DEBUG_MODE -> ..data/FLASK_DEBUG_MODE
+lrwxrwxrwx 1 root root   28 Jun 10 02:38 FLASK_HOST_IP_ADDRESS -> ..data/FLASK_HOST_IP_ADDRESS
+lrwxrwxrwx 1 root root   24 Jun 10 02:38 FLASK_PORT_NUMBER -> ..data/FLASK_PORT_NUMBER
+
+root@taskdeployment-76cd486744-9kkxd:/usr/src/app# cat config/FLASK_HOST_IP_ADDRESS 
+0.0.0.0
+
+
+```

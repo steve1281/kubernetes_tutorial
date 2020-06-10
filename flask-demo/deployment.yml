@@ -41,10 +41,32 @@ spec:
           volumeMounts:
             - name: dbase-storage
               mountPath: /usr/src/app/dbase
+            - name: config-values
+              mountPath: /usr/src/app/config
+          env:
+            - name: FLASK_DEBUG_MODE
+              valueFrom:
+                configMapKeyRef:
+                  name: configvariable
+                  key: FLASK_DEBUG_MODE
+            - name: FLASK_HOST_IP_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: configvariable
+                  key: FLASK_HOST_IP_ADDRESS
+            - name: FLASK_PORT_NUMBER
+              valueFrom:
+                configMapKeyRef:
+                  name: configvariable
+                  key: FLASK_PORT_NUMBER
       volumes:
         - name: dbase-storage
           persistentVolumeClaim:
             claimName: dbase-pv-storage
+        - name: config-values
+          configMap:
+            name: configvariable
+
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -57,3 +79,13 @@ spec:
     requests:
       storage: 5Gi
 
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configvariable
+  namespace: default
+data:
+  FLASK_DEBUG_MODE : "True"
+  FLASK_HOST_IP_ADDRESS : "0.0.0.0"
+  FLASK_PORT_NUMBER : "80"
