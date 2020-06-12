@@ -1,0 +1,4 @@
+[2020-06-11 23:04:58,336] {/home/steve/projects/kuber-demos/flask-logger/logger.py:24} WARNING - ('A warning occurred (42 apples)',)
+[2020-06-11 23:04:58,336] {/home/steve/projects/kuber-demos/flask-logger/logger.py:27} ERROR - ('An error occurred',)
+[2020-06-11 23:04:59,833] {/home/steve/projects/kuber-demos/flask-logger/logger.py:24} WARNING - ('A warning occurred (42 apples)',)
+[2020-06-11 23:04:59,833] {/home/steve/projects/kuber-demos/flask-logger/logger.py:27} ERROR - ('An error occurred',)
