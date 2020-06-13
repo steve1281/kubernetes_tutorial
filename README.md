@@ -15,6 +15,7 @@ Create_Swagger.md - working with swagger; specifically issues with python
 ```
 flask-demo - simple example of a flask/sqlalchemy app
 flask-logger - adding customized logging to a flask app
+flask-connex - simple connexion - swagger - flask app
 ```
 
 ## kubernetes
