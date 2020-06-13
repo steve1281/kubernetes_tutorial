@@ -1,0 +1,23 @@
+openapi: 3.0.0
+info:
+  version: '1.0.0'
+  title: 'Simple API'
+  description: 'Simple Example'
+
+servers: 
+  - url: https://localhost/v1
+    description: Dev Server
+
+paths: 
+  /hello_world:
+    get:
+      operationId: service.api.hello_world
+      description: General information about this.
+      responses:
+        200:
+          description: Hello World
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "hello world"
