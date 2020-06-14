@@ -13,6 +13,11 @@ Create_Swagger.md - working with swagger; specifically issues with python
 Create_Helm_setup.md - install and test helm
 ```
 
+## helm
+```
+helm-example - simple example of a helm deployment
+```
+
 ## flask
 ```
 flask-demo - simple example of a flask/sqlalchemy app
