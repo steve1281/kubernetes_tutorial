@@ -1,4 +1,4 @@
-# example helm i3.x
+# example helm 3.x
 
 follow : https://opensource.com/article/20/5/helm-charts
 (the developer who did the demo is Jessica Cherry - hence the name cherry in the demo)
