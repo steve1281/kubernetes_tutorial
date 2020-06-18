@@ -1,0 +1,20 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  description: Simple Example
+  title: Simple Example
+
+paths:
+  /version:
+    get:
+      operationId: api.version
+      description: Display the version of this service.
+      responses:
+        200:
+          description: Successfully found and returned version
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 1.0.0 (latest)
+        
