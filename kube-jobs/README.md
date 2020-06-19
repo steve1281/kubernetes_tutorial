@@ -24,3 +24,13 @@ I use minikube; see setup above.
 Not copying config files
 or any of that
 ```
+
+## go do README_JOB.md
+
+## go do README_CRONJOBS.md
+
+## conclusions/notes
+```
+Need some tools for monitoring/log extraction and collection/cleanup
+```
+
