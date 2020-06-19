@@ -158,7 +158,7 @@ Under the spec, add
 
 and put back the echo.
 
-This will run the job twice, in sequence. (not parrallel)
+This will run the job twice, in sequence. (not parallel)
 
 $ cat job_seq.yaml 
 apiVersion: batch/v1
@@ -214,7 +214,7 @@ $ kubectl delete job helloworld
 job.batch "helloworld" deleted
 ```
 
-## Next, parrallellism
+## Next, parallellism
 ```
 Add:
   parallelism: 2
