@@ -27,7 +27,7 @@ or any of that
 
 ## go do README_JOB.md
 
-## go do README_CRONJOBS.md
+## go do README_CRONJOB.md
 
 ## conclusions/notes
 ```
