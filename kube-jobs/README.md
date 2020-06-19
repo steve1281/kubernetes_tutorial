@@ -32,5 +32,7 @@ or any of that
 ## conclusions/notes
 ```
 Need some tools for monitoring/log extraction and collection/cleanup
+Also, need to think about injecting values - maybe helm can help with this.
+
 ```
 
