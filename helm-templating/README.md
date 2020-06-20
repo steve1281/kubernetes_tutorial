@@ -2,6 +2,7 @@
 
 link: https://www.youtube.com/watch?v=-ykwb1d0DXU
 goto about 4:50
+honestly, skip down to line 65 below.
 
 ## setup
 ```
