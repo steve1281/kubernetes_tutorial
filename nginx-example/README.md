@@ -123,7 +123,7 @@ release "nginx-1592765406" uninstalled
 ## Use dryrun to get a deployment file
 ```
 But we want to mess this. So lets capture the yaml:
-
+www
 $ helm install bitnami/nginx --generate-name --dry-run > deployment.yaml
 
 Edit the dryrun. Remove the block of crud on the top, and the block on the bottom.
@@ -301,7 +301,7 @@ and you will see them right away.
 
 ## wrap up
 ```
-This is a bit hacky I think, and we could probably do a better/(easier?) job my messing with Docker direcly.
+This is a bit hacky I think, and we could probably do a better/(easier?) job messing with Docker direcly.
 Still, some could info here, wrt to techniques.
 ```
 
