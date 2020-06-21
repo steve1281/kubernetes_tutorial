@@ -31,6 +31,7 @@ flask-connex - simple connexion - swagger - flask app
 kube-demo   - simple kubernetes example using a public docker
 kube-demo-2 - kubernetes example with a custom docker container (using node)
 kube-jobs - examples of job and cronjob in kubernetes
+nginx-example - local web development using volumeMount and nginx 
 ```
 
 ## swagger
